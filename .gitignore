@@ -1,0 +1,11 @@
+# Ignore temporary code execution files
+tempCodeRunnerFile.js
+
+# Ignore specific directories (Relative paths with forward slashes)
+JS/JS Notes/
+SQL/SQL notes/
+API/Notes/
+
+# Global overrides (Ignore all PDFs and Word docs anywhere in the repository)
+*.pdf
+*.docx
