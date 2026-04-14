@@ -9,3 +9,11 @@ API/Notes/
 # Global overrides (Ignore all PDFs and Word docs anywhere in the repository)
 *.pdf
 *.docx
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
