@@ -171,6 +171,45 @@ SELECT MAX(salary) AS Maximum_Salary FROM employees; -- to get the maximum salar
 SELECT emp_id, fname, salary FROM employees 
 WHERE salary = (SELECT MAX(salary) FROM employees);
 
+--Group by
+select department, count(*) as employee_count from employees group by department; -- to get the count of employees in each department
+select department, sum(salary) as total_salary from employees group by department; -- to get the total salary of employees in each department
+select department, avg(salary) as average_salary from employees group by department; -- to get the average salary of employees in each department
+
+select city, count(emp_id) from employees group by city; -- to get the count of employees in each city
+
+--Multi level grouping
+select department, city, count(emp_id) as employee_count from employees group by department, city order by department, city; -- to get the count of employees in each department and city combination
+
+--Having clause
+select department, count(emp_id) as employee_count from employees group by department having count(emp_id) > 2; -- to get the count of employees in each department where the count is greater than 2
+
+--Group by rollup
+select department, count(emp_id) as employee_count from employees group by rollup(department) order by department; -- to get the count of employees in each department combination along with subtotals and grand total using ROLLUP
+
+Select
+    department,
+    COALESCE(city, 'TOTAL') as city,
+    count(emp_id) as employee_count
+FROM
+    employees
+GROUP BY 
+    ROLLUP(department, city)
+ORDER BY
+    department; -- to get the count of employees in each city and department combination along with subtotals and grand total using ROLLUP
+
+--DATE functions
+SELECT DATEDIFF(day, '2002-06-13', GETDATE()) AS Age; -- to calculate the age of an employee born on June 13, 2002
+--JOINS
+--CROSS JOIN
+select * FROM
+
+
+
+
+
+
+
 
 
 
