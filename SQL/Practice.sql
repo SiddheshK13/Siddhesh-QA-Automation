@@ -200,9 +200,7 @@ ORDER BY
 
 --DATE functions
 SELECT DATEDIFF(day, '2002-06-13', GETDATE()) AS Age; -- to calculate the age of an employee born on June 13, 2002
---JOINS
---CROSS JOIN
-select * FROM
+
 
 
 

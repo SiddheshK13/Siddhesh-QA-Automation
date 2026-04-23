@@ -80,7 +80,19 @@ customers c Full outer JOIN Orders o
 ON c.customer_id = o.customer_id
 GROUP BY c.customer_name;
 
+--outer apply--
 
+SELECT 
+    c.customer_id, c.customer_name,
+    o.order_id, o.order_date, o.total_amount
+FROM Customers AS c
+
+OUTER APPLY (
+    SELECT TOP 1 *
+    FROM Orders AS o
+    WHERE o.customer_id = c.customer_id
+    ORDER BY o.order_date DESC
+) AS o; -- This query retrieves each customer along with their most recent order (if any). The OUTER APPLY allows us to get the top 1 order for each customer based on the order date. If a customer has no orders, the order details will be NULL.
 
 
 
