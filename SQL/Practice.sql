@@ -204,12 +204,75 @@ SELECT DATEDIFF(day, '2002-06-13', GETDATE()) AS Age; -- to calculate the age of
 
 
 
+CREATE TABLE CompanyHierarchy (
+    EmployeeID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    ManagerID INT
+);
+
+INSERT INTO CompanyHierarchy (EmployeeID, Name, ManagerID)
+VALUES
+(1, 'Sonia Verma', NULL),  -- The CEO
+(2, 'Rohan Gupta', 1),     -- Reports to Sonia
+(3, 'Amit Sharma', 2),     -- Reports to Rohan
+(4, 'Priya Singh', 1),     -- Reports to Sonia
+(5, 'Kabir Shah', 2);      -- Reports to Rohan
+
+SELECT
+      e.Name AS EmployeeName,
+      m.Name AS ManagerName
+FROM CompanyHierarchy AS e
+LEFT JOIN CompanyHierarchy AS m 
+ON e.ManagerID = m.EmployeeID;
+
+--WINDOW functions
+SELECT fname, salary, 
+SUM(salary) OVER() as Total_Salary,
+cast(salary * 100.0 / SUM(salary) OVER() as decimal(10,2)) as Salary_Percentage
+from employees; -- to get the total salary of all employees using a window function
+
+--ROW number 
+SELECT 
+    ROW_NUMBER() OVER (ORDER BY fname) AS RowNum, 
+    fname, department, salary
+    FROM employees; -- to assign a unique row number to each employee ordered by salary in descending order
+ 
+ --RANK
+ SELECT 
+    fname, department, salary,
+    RANK() OVER (ORDER BY salary DESC) AS SalaryRank 
+    from employees; -- to rank employees based on their salary in descending order, with ties receiving the same rank
+
+UPDATE employees
+set salary = 180000
+where fname = 'Paul'; -- to update the salary of Paul to 180000
+
+--DENSE_RANK
+SELECT 
+    fname, department, salary,
+    DENSE_RANK() OVER (ORDER BY salary DESC) AS SalaryDenseRank 
+    from employees; -- to rank employees based on their salary in descending order, with ties receiving the same rank and no gaps in ranking
+
+--STORED PROCEDURE
+
+CREATE PROCEDURE get_employees_sp
+    AS
+    BEGIN
+       SELECT emp_id, fname, lname, department, hire_date, city
+       FROM employees
+       END; -- to create a stored procedure that retrieves the employee ID, first name, last name, department, hire date, and city of all employees
+
+       EXEC get_employees_sp; -- to execute the stored procedure and retrieve the employee details
 
 
+CREATE PROCEDURE get_tech_employees_sp
+@p_department VARCHAR(100)
+AS
+BEGIN
+SELECT emp_id, fname, lname, department, hire_date, city
+FROM employees
+WHERE department = @p_department; -- to retrieve the employee ID, first name, last name, department, hire date, and city of all employees in the specified department
+END;
 
-
-
-
-
-
+EXEC get_tech_employees_sp @p_department = 'Sales'; -- to execute the stored procedure and retrieve the details of employees in the Tech department
 
